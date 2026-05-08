@@ -3,6 +3,12 @@ import { useEffect, useMemo, useState } from 'react';
 const MAX_STAT = 100;
 const MIN_STAT = 0;
 
+const INITIAL_STATS = {
+  hunger: 74,
+  energy: 68,
+  happiness: 82,
+};
+
 const moodConfig = {
   happy: {
     label: 'Happy',
@@ -590,6 +596,17 @@ function App() {
     setLifeStage('pet');
   }
 
+  function resetToEgg() {
+    setLifeStage('egg');
+    setActivePetId(null);
+    setPetName('');
+    setNameDraft('');
+    setReaction(null);
+    setFeedCount(0);
+    setHasEvolved(false);
+    setStats(INITIAL_STATS);
+  }
+
   function triggerInteraction(kind, changes) {
     if (lifeStage !== 'pet') return;
 
@@ -653,6 +670,15 @@ function App() {
 
         <div className="grid items-stretch gap-5 lg:grid-cols-[1fr_340px]">
           <div className="retro-panel flex min-h-[28rem] flex-col items-center justify-center p-5 sm:p-8">
+            {lifeStage !== 'egg' && (
+              <button
+                type="button"
+                className="new-pet-button"
+                onClick={resetToEgg}
+              >
+                New Pet
+              </button>
+            )}
             {lifeStage === 'egg' && (
               <>
                 <div className="mb-4 rounded-full border border-neonCyan/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonCyan shadow-neonCyan">

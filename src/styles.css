@@ -39,6 +39,40 @@ button {
     inset 0 0 28px rgba(255, 255, 255, 0.05);
 }
 
+.new-pet-button {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 10;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 61, 242, 0.95), rgba(32, 247, 255, 0.95));
+  color: #04060d;
+  font-family: "Press Start 2P", "Courier New", monospace;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  box-shadow:
+    0 0 12px rgba(255, 61, 242, 0.8),
+    0 0 18px rgba(32, 247, 255, 0.7),
+    inset 0 0 0.6rem rgba(255, 255, 255, 0.16);
+  cursor: pointer;
+  transition: transform 180ms ease, filter 180ms ease, box-shadow 180ms ease;
+}
+
+.new-pet-button:hover {
+  transform: translateY(-0.1rem) scale(1.02);
+  box-shadow:
+    0 0 16px rgba(255, 61, 242, 0.95),
+    0 0 26px rgba(32, 247, 255, 0.85);
+}
+
+.new-pet-button:focus-visible {
+  outline: 3px solid #20f7ff;
+  outline-offset: 0.25rem;
+}
+
 .retro-panel::before {
   content: "";
   position: absolute;
