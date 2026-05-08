@@ -633,6 +633,11 @@ function App() {
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-night px-4 py-6 text-white sm:px-6 lg:px-8">
+      <div className="starfield pointer-events-none absolute inset-0" aria-hidden="true">
+        {Array.from({ length: 28 }).map((_, index) => (
+          <span key={index} />
+        ))}
+      </div>
       <div className="scanlines pointer-events-none absolute inset-0" />
       <div className="grid-horizon pointer-events-none absolute inset-x-0 bottom-0 h-1/2 opacity-70" />
 
