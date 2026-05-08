@@ -149,7 +149,7 @@ const reactionConfig = {
   },
   feed: {
     label: 'YUM!',
-    symbol: 'pizza',
+    symbol: 'lollipop',
     className: 'reaction-snack',
     message: 'Snack upload complete!',
   },
@@ -178,15 +178,19 @@ const ICON_PIXELS = {
     '...KK...',
     '........',
   ],
-  pizza: [
-    'KKKKKK..',
-    'KOYYYYK.',
-    'KOYRYYK.',
-    'KOYYYRK.',
-    'KOYRYYK.',
-    'KOOYYYK.',
-    '.KOOYK..',
-    '..KKK...',
+  lollipop: [
+    '..KKKK..',
+    '.KPPYYK.',
+    'KPPYYPPK',
+    'KPYYPPYK',
+    'KYYPPYYK',
+    '.KYYYYK.',
+    '..KKKK..',
+    '...K....',
+    '...K....',
+    '...K....',
+    '...K....',
+    '...K....',
   ],
   ball: [
     '..KKKK..',
@@ -281,6 +285,7 @@ function SpriteGrid({ rows, className = '' }) {
 }
 
 function PixelIcon({ rows, className = '' }) {
+  const columnCount = rows[0]?.length ?? 8;
   const pixels = rows.flatMap((row, rowIndex) =>
     [...row].map((value, columnIndex) => ({
       value,
@@ -291,7 +296,10 @@ function PixelIcon({ rows, className = '' }) {
   );
 
   return (
-    <span className={`mini-sprite ${className}`}>
+    <span
+      className={`mini-sprite ${className}`}
+      style={{ '--icon-cols': columnCount, '--icon-rows': rows.length }}
+    >
       {pixels.map((pixel) =>
         pixel.value === '.' ? null : (
           <span
@@ -473,7 +481,8 @@ function App() {
   const actions = [
     {
       label: 'Feed',
-      iconRows: ICON_PIXELS.pizza,
+      iconRows: ICON_PIXELS.lollipop,
+      iconClassName: 'action-pixel-icon--lollipop',
       glow: 'shadow-neonPink hover:border-neonPink',
       onClick: () => triggerInteraction('feed', { hunger: 22, happiness: 4, energy: -4 }),
     },
@@ -592,7 +601,7 @@ function App() {
                   className={`action-button ${action.glow}`}
                 >
                   <span className="action-icon-stage">
-                    <PixelIcon rows={action.iconRows} className="action-pixel-icon" />
+                    <PixelIcon rows={action.iconRows} className={`action-pixel-icon ${action.iconClassName ?? ''}`} />
                   </span>
                   <span className="block text-[0.58rem]">{action.label}</span>
                 </button>

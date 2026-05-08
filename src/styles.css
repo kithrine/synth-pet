@@ -170,10 +170,10 @@ button {
 .mini-sprite {
   --mini-pixel-size: 0.18rem;
   display: grid;
-  grid-template-columns: repeat(8, var(--mini-pixel-size));
-  grid-template-rows: repeat(8, var(--mini-pixel-size));
-  width: calc(var(--mini-pixel-size) * 8);
-  height: calc(var(--mini-pixel-size) * 8);
+  grid-template-columns: repeat(var(--icon-cols, 8), var(--mini-pixel-size));
+  grid-template-rows: repeat(var(--icon-rows, 8), var(--mini-pixel-size));
+  width: calc(var(--mini-pixel-size) * var(--icon-cols, 8));
+  height: calc(var(--mini-pixel-size) * var(--icon-rows, 8));
   image-rendering: pixelated;
 }
 
@@ -212,6 +212,10 @@ button {
 
 .pixel-C {
   background: var(--cyan, #20f7ff);
+}
+
+.pixel-D {
+  background: var(--brown, #b96527);
 }
 
 .pixel-G {
@@ -594,14 +598,18 @@ button {
   color: #f82870;
 }
 
-.reaction-icon--pizza {
+.reaction-icon--lollipop {
   color: #ffd84a;
-  width: 1.78rem;
-  height: 1.78rem;
+  width: 1.75rem;
+  height: 2.45rem;
 }
 
-.reaction-icon--pizza .mini-sprite {
-  --mini-pixel-size: 0.2225rem;
+.reaction-icon--lollipop .mini-sprite {
+  --mini-pixel-size: 0.218rem;
+  --brown: #b96527;
+  --yellow: #ffe45c;
+  --pink: #ff5aae;
+  --rose: #ff426f;
 }
 
 .reaction-icon--spark {
@@ -647,6 +655,7 @@ button {
   width: 3.85rem;
   height: 3.3rem;
   place-items: center;
+  overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.18);
   background:
     radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 58%),
@@ -657,11 +666,12 @@ button {
 }
 
 .action-pixel-icon {
-  --mini-pixel-size: 0.38rem;
+  --mini-pixel-size: 0.3rem;
   --green: #c8ff4d;
   --yellow: #ffe45c;
   --orange: #ff9a3d;
   --rose: #ff426f;
+  --brown: #b96527;
   --cyan: #52f8ff;
   --white: #fffdf7;
   --outline: #07020d;
@@ -670,6 +680,11 @@ button {
     drop-shadow(0 0.1rem 0 rgba(255, 255, 255, 0.18))
     drop-shadow(0 0 0.55rem rgba(255, 255, 255, 0.5));
   transform: translateY(-0.05rem);
+}
+
+.action-pixel-icon--lollipop {
+  --mini-pixel-size: 0.24rem;
+  transform: translateY(0);
 }
 
 .action-button:hover .action-icon-stage {
@@ -833,7 +848,11 @@ button {
   }
 
   .action-pixel-icon {
-    --mini-pixel-size: 0.31rem;
+    --mini-pixel-size: 0.25rem;
+  }
+
+  .action-pixel-icon--lollipop {
+    --mini-pixel-size: 0.21rem;
   }
 
   .pixel-pet {
