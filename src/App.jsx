@@ -30,6 +30,7 @@ const PETS = [
   {
     id: 'citrine-fox',
     name: 'Citrine Fox',
+    evolvedName: 'Neon Vulpix',
     className: 'pet-fox',
     pixels: [
       '...KKK....KKK...',
@@ -49,10 +50,29 @@ const PETS = [
       '..KKK.....KKK...',
       '................',
     ],
+    evolvedPixels: [
+      '..KKK....KKK....',
+      '.KOCOK..KOCOK...',
+      'KOOOCKKKKCOOOK..',
+      'KOOOWWWWWOOOCK..',
+      'KOOOWCWCWOOOCKK.',
+      'KOOOWWWWWWWOKOOK',
+      'KOOOWWWWWWWOOKWK',
+      'KOOOWWWWWWWOCKWK',
+      '.KOOOWWWWWOOKCWK',
+      '.KCOOOWWWOOOKWK.',
+      '..KOOOOOOOOOKKK.',
+      '..KOOOCWCOOOK...',
+      '.KCKOOOWOOOKC...',
+      'KCCKOOKKKOOK....',
+      '.KKK.....KKK....',
+      '................',
+    ],
   },
   {
     id: 'moon-panda',
     name: 'Moon Panda',
+    evolvedName: 'Orbit Panda',
     className: 'pet-panda',
     pixels: [
       '...KK......KK...',
@@ -72,10 +92,29 @@ const PETS = [
       '..KKK......KKK..',
       '................',
     ],
+    evolvedPixels: [
+      '..CKK......KKC..',
+      '.CKBBK....KBBKC.',
+      'KBBBBKKKKKKBBBBK',
+      'KBBWWCWWCWWWBBK.',
+      'KBBWWWWWWWWWWBBK',
+      'KBWWWWWWWWWWWWBK',
+      'KBWWCWWWWWWCWWBK',
+      'KBBWWWWWWWWWWBBK',
+      '.KBBWWWWWWWWBBK.',
+      '.KBBBCWWWWCBBBK.',
+      '..KBBWWWWWWBBK..',
+      '.CKBBWWWWWWBBKC.',
+      '..CKBBWWWWBBKC..',
+      '...KBBKKKKBBK...',
+      '..KKK......KKK..',
+      '................',
+    ],
   },
   {
     id: 'bubble-bunny',
     name: 'Bubble Bunny',
+    evolvedName: 'Laser Bunny',
     className: 'pet-bunny',
     pixels: [
       '..KKK......KKK..',
@@ -95,10 +134,29 @@ const PETS = [
       '..KKK......KKK..',
       '................',
     ],
+    evolvedPixels: [
+      '.CKKK......KKKC.',
+      'KWWPK....KPWWPK.',
+      'KWWPK....KPWWPK.',
+      '.KWWKC..CKWWK...',
+      '.CKWWKKKKWWKC...',
+      'KWWWWCWWCWWWWK..',
+      'KWWWWWWWWWWWWWWK',
+      'KWWCWWWWWWWWCWWK',
+      'KWWWWWWWWWWWWWWK',
+      '.KWWWWCWWCWWWWK.',
+      '.CKWWWWWWWWWWKC.',
+      '..KWWWWWWWWWWK..',
+      '..CKWWWWWWWWKC..',
+      '..KWWPKKKPWWK...',
+      '.KKK......KKK...',
+      '................',
+    ],
   },
   {
     id: 'berry-bear',
     name: 'Berry Bear',
+    evolvedName: 'Chrome Bear',
     className: 'pet-bear',
     pixels: [
       '..KKK......KKK..',
@@ -116,6 +174,24 @@ const PETS = [
       '...KPPYYYYPPK...',
       '...KPPKKKKPPK...',
       '..KKK......KKK..',
+      '................',
+    ],
+    evolvedPixels: [
+      '.CKKK......KKKC.',
+      'KPPPK....KPPPK..',
+      'KPPPKKKKKKPPPK..',
+      'KPPPCYYYYYCPPPK.',
+      'KPPYYYYYYYYYYPPK',
+      'KPYYYCYYYYCYYYPK',
+      'KPYYYYYYYYYYYYPK',
+      'KPYYYCYYYYCYYYPK',
+      'KPPYYYYYYYYYYPPK',
+      '.KPPYCYYYYCYPPK.',
+      '.CKPPYYYYYYPPKC.',
+      '..KPPYYYYYYPPK..',
+      '..CKPPYYYYPPKC..',
+      '..KPPKKKKKKPPK..',
+      '.KKK......KKK...',
       '................',
     ],
   },
@@ -164,6 +240,12 @@ const reactionConfig = {
     symbol: 'zzz',
     className: 'reaction-sleep',
     message: 'Power nap engaged',
+  },
+  evolve: {
+    label: 'EVOLVE',
+    symbol: 'spark',
+    className: 'reaction-spark',
+    message: 'New neon form unlocked!',
   },
 };
 
@@ -367,13 +449,21 @@ function PixelReaction({ reaction }) {
   );
 }
 
-function PixelPet({ pet, mood, reaction, onPet, interactive = false }) {
-  const shellClass = `pixel-pet ${pet.className} pixel-pet--${mood} ${reaction ? `pixel-pet--react-${reaction.kind}` : ''}`;
+function PixelPet({ pet, mood, reaction, onPet, interactive = false, evolved = false, evolving = false }) {
+  const spriteRows = evolved ? pet.evolvedPixels : pet.pixels;
+  const shellClass = [
+    'pixel-pet',
+    pet.className,
+    evolved ? 'pixel-pet--evolved' : '',
+    evolving ? 'pixel-pet--evolving' : '',
+    `pixel-pet--${mood}`,
+    reaction ? `pixel-pet--react-${reaction.kind}` : '',
+  ].join(' ');
 
   const petSprite = (
     <>
       <div className="pet-art relative h-full w-full">
-        <SpriteGrid rows={pet.pixels} />
+        <SpriteGrid rows={spriteRows} />
         <PetFace mood={mood} />
         {(mood === 'sleepy' || reaction?.kind === 'sleep') && <div className="sleep-bubble">Z</div>}
         <PixelReaction reaction={reaction} />
@@ -398,12 +488,34 @@ function PixelPet({ pet, mood, reaction, onPet, interactive = false }) {
   );
 }
 
+function EvolutionSequence({ pet }) {
+  return (
+    <div className="evolution-stage" aria-live="assertive">
+      <div className="evolution-flash" />
+      <div className="evolution-particles">
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+        <span />
+      </div>
+      <p className="evolution-title">EVOLUTION</p>
+      <p className="evolution-subtitle">{pet.evolvedName} incoming</p>
+      <PixelPet pet={pet} mood="happy" evolved evolving />
+      <p className="evolution-copy">Neon genome rewriting...</p>
+    </div>
+  );
+}
+
 function App() {
   const [lifeStage, setLifeStage] = useState('egg');
   const [activePetId, setActivePetId] = useState(null);
   const [petName, setPetName] = useState('');
   const [nameDraft, setNameDraft] = useState('');
   const [reaction, setReaction] = useState(null);
+  const [feedCount, setFeedCount] = useState(0);
+  const [hasEvolved, setHasEvolved] = useState(false);
   const [stats, setStats] = useState({
     hunger: 74,
     energy: 68,
@@ -436,6 +548,21 @@ function App() {
 
     return () => window.clearInterval(decayTimer);
   }, [lifeStage]);
+
+  useEffect(() => {
+    if (feedCount < 5 || hasEvolved || lifeStage !== 'pet') return undefined;
+
+    setLifeStage('evolving');
+    setReaction(null);
+
+    const evolutionTimer = window.setTimeout(() => {
+      setHasEvolved(true);
+      setLifeStage('pet');
+      setReaction({ kind: 'evolve', id: Date.now() });
+    }, 3400);
+
+    return () => window.clearTimeout(evolutionTimer);
+  }, [feedCount, hasEvolved]);
 
   useEffect(() => {
     if (!reaction) return undefined;
@@ -472,6 +599,10 @@ function App() {
       happiness: clampStat(current.happiness + (changes.happiness ?? 0)),
     }));
     setReaction({ kind, id: Date.now() });
+
+    if (kind === 'feed' && !hasEvolved) {
+      setFeedCount((current) => current + 1);
+    }
   }
 
   function petThePet() {
@@ -564,15 +695,17 @@ function App() {
                     {petName}
                   </p>
                   <p className="mt-2 rounded-full border border-neonCyan/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonCyan shadow-neonCyan">
-                    {activePet.name} / {moodConfig[mood].label}
+                    {hasEvolved ? activePet.evolvedName : activePet.name} / {moodConfig[mood].label}
                   </p>
                 </div>
-                <PixelPet pet={activePet} mood={mood} reaction={reaction} onPet={petThePet} interactive />
+                <PixelPet pet={activePet} mood={mood} reaction={reaction} onPet={petThePet} interactive evolved={hasEvolved} />
                 <p className="mt-5 text-center font-pixel text-[0.65rem] leading-6 text-pink-100 drop-shadow-[0_0_8px_rgba(255,61,242,0.75)]">
                   {reaction ? reactionConfig[reaction.kind].message : moodConfig[mood].message}
                 </p>
               </>
             )}
+
+            {lifeStage === 'evolving' && <EvolutionSequence pet={activePet} />}
           </div>
 
           <aside className="retro-panel flex flex-col justify-between gap-6 p-5 sm:p-6">
@@ -588,6 +721,19 @@ function App() {
                 <StatBar label="Fullness" value={stats.hunger} color="bg-gradient-to-r from-neonPink to-fuchsia-300 shadow-neonPink" />
                 <StatBar label="Energy" value={stats.energy} color="bg-gradient-to-r from-neonPurple to-violet-300 shadow-neonPurple" />
                 <StatBar label="Happy" value={stats.happiness} color="bg-gradient-to-r from-neonCyan to-sky-200 shadow-neonCyan" />
+              </div>
+
+              <div className="evolution-meter mt-6">
+                <div className="flex items-center justify-between text-[0.55rem] text-purple-100">
+                  <span>Evolution</span>
+                  <span>{hasEvolved ? 'Complete' : `${Math.min(feedCount, 5)}/5 feeds`}</span>
+                </div>
+                <div className="evolution-track">
+                  <div
+                    className="evolution-fill"
+                    style={{ width: `${hasEvolved ? 100 : Math.min(feedCount, 5) * 20}%` }}
+                  />
+                </div>
               </div>
             </div>
 
