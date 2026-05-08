@@ -6,32 +6,236 @@ const MIN_STAT = 0;
 const moodConfig = {
   happy: {
     label: 'Happy',
-    face: '^  ^',
     message: 'Neon purrs detected',
     aura: 'from-neonCyan/30 via-neonPink/20 to-neonPurple/30',
   },
   sleepy: {
     label: 'Sleepy',
-    face: '-  -',
     message: 'Dreaming in bitcrush',
     aura: 'from-neonPurple/30 via-slate-500/20 to-neonCyan/20',
   },
   hungry: {
     label: 'Hungry',
-    face: 'o  o',
     message: 'Snack protocol low',
     aura: 'from-neonPink/35 via-orange-400/20 to-neonPurple/25',
   },
   sad: {
     label: 'Sad',
-    face: ';  ;',
     message: 'Needs tiny attention',
     aura: 'from-blue-500/30 via-neonPurple/20 to-neonPink/20',
   },
 };
 
+const PETS = [
+  {
+    id: 'citrine-fox',
+    name: 'Citrine Fox',
+    className: 'pet-fox',
+    pixels: [
+      '...KKK....KKK...',
+      '..KOOOK..KOOOK..',
+      '..KOOOKKKKOOOK..',
+      '.KOOOWWWWWOOOK..',
+      '.KOOOWWWWWOOOK..',
+      'KOOOWWWWWWWOOKK.',
+      'KOOOWWWWWWWOKOOK',
+      'KOOOWWWWWWWOOKWK',
+      '.KOOOWWWWWOOKWWK',
+      '.KOOOOWWWOOOKWK.',
+      '..KOOOOOOOOOOKK.',
+      '..KOOOWWWOOOK...',
+      '...KOOOWOOOK....',
+      '...KOOKKKOOK....',
+      '..KKK.....KKK...',
+      '................',
+    ],
+  },
+  {
+    id: 'moon-panda',
+    name: 'Moon Panda',
+    className: 'pet-panda',
+    pixels: [
+      '...KK......KK...',
+      '..KBBK....KBBK..',
+      '.KBBBBKKKKBBBBK.',
+      '.KBBWWWWWWWWBBK.',
+      'KBBWWWWWWWWWWBBK',
+      'KBWWWWWWWWWWWWBK',
+      'KBWWWWWWWWWWWWBK',
+      'KBBWWWWWWWWWWBBK',
+      '.KBBWWWWWWWWBBK.',
+      '.KBBBWWWWWWBBBK.',
+      '..KBBWWWWWWBBK..',
+      '..KBBWWWWWWBBK..',
+      '...KBBWWWWBBK...',
+      '...KBBKKKKBBK...',
+      '..KKK......KKK..',
+      '................',
+    ],
+  },
+  {
+    id: 'bubble-bunny',
+    name: 'Bubble Bunny',
+    className: 'pet-bunny',
+    pixels: [
+      '..KKK......KKK..',
+      '.KWWPK....KPWWK.',
+      '.KWWPK....KPWWK.',
+      '..KWWK....KWWK..',
+      '..KWWKKKKKKWWK..',
+      '.KWWWWWWWWWWWWK.',
+      'KWWWWWWWWWWWWWWK',
+      'KWWWWWWWWWWWWWWK',
+      'KWWWWWWWWWWWWWWK',
+      '.KWWWWWWWWWWWWK.',
+      '..KWWWWWWWWWWK..',
+      '..KWWWWWWWWWWK..',
+      '...KWWWWWWWWK...',
+      '...KWWPKKPWWK...',
+      '..KKK......KKK..',
+      '................',
+    ],
+  },
+  {
+    id: 'berry-bear',
+    name: 'Berry Bear',
+    className: 'pet-bear',
+    pixels: [
+      '..KKK......KKK..',
+      '.KPPPK....KPPPK.',
+      '.KPPPKKKKKKPPPK.',
+      'KPPPPYYYYYYPPPPK',
+      'KPPYYYYYYYYYYPPK',
+      'KPYYYYYYYYYYYYPK',
+      'KPYYYYYYYYYYYYPK',
+      'KPYYYYYYYYYYYYPK',
+      'KPPYYYYYYYYYYPPK',
+      '.KPPYYYYYYYYPPK.',
+      '..KPPYYYYYYPPK..',
+      '..KPPYYYYYYPPK..',
+      '...KPPYYYYPPK...',
+      '...KPPKKKKPPK...',
+      '..KKK......KKK..',
+      '................',
+    ],
+  },
+];
+
+const EGG_PIXELS = [
+  '................',
+  '......KKKK......',
+  '....KKPPPPKK....',
+  '...KPPPPPPPPK...',
+  '..KPPPPBBPPPPK..',
+  '.KPPPPBBBBPPPPK.',
+  '.KPPBPPPPBBPPPK.',
+  'KPPBBCCCCBBPPPPK',
+  'KPPCCCCCCCCPPPPK',
+  'KPPCCCCYYCCPPPPK',
+  '.KPPCCYYYYCCPPK.',
+  '.KPPCCCCCCCCPPK.',
+  '..KPPPCCCCPPPK..',
+  '...KPPPPPPPPK...',
+  '....KKPPPPKK....',
+  '......KKKK......',
+];
+
+const reactionConfig = {
+  pet: {
+    label: 'LIKE',
+    symbol: 'heart',
+    className: 'reaction-heart',
+    message: 'Soft pixel pets!',
+  },
+  feed: {
+    label: 'YUM!',
+    symbol: 'pizza',
+    className: 'reaction-snack',
+    message: 'Snack upload complete!',
+  },
+  play: {
+    label: 'WOW',
+    symbol: 'spark',
+    className: 'reaction-spark',
+    message: 'Arcade zoomies!',
+  },
+  sleep: {
+    label: 'ZZZ',
+    symbol: 'zzz',
+    className: 'reaction-sleep',
+    message: 'Power nap engaged',
+  },
+};
+
+const ICON_PIXELS = {
+  heart: [
+    '.KK..KK.',
+    'KPPKKPPK',
+    'KPPPPPPK',
+    'KPPPPPPK',
+    '.KPPPPK.',
+    '..KPPK..',
+    '...KK...',
+    '........',
+  ],
+  pizza: [
+    'KKKKKK..',
+    'KOYYYYK.',
+    'KOYRYYK.',
+    'KOYYYRK.',
+    'KOYRYYK.',
+    'KOOYYYK.',
+    '.KOOYK..',
+    '..KKK...',
+  ],
+  ball: [
+    '..KKKK..',
+    '.KGGGGK.',
+    'KGGWWGGK',
+    'KGWGGWGK',
+    'KGWGGWGK',
+    'KGGWWGGK',
+    '.KGGGGK.',
+    '..KKKK..',
+  ],
+  moon: [
+    'C...KKK.',
+    '..KYYYYK',
+    '.KYYYYK.',
+    '.KYYYK.C',
+    '.KYYYK..',
+    '..KYYYYK',
+    'C..KYYK.',
+    '....KK..',
+  ],
+  spark: [
+    '...K....',
+    '..KYK...',
+    '.KYYYK..',
+    'KYYYYYK.',
+    '.KYYYK..',
+    '..KYK...',
+    '...K....',
+    '........',
+  ],
+  zzz: [
+    'KKKK.KK.',
+    '...K..K.',
+    '..K..K..',
+    '.K..KKK.',
+    'KKKK....',
+    '........',
+    '...KK...',
+    '....K...',
+  ],
+};
+
 function clampStat(value) {
   return Math.min(MAX_STAT, Math.max(MIN_STAT, value));
+}
+
+function getRandomPetId() {
+  return PETS[Math.floor(Math.random() * PETS.length)].id;
 }
 
 function StatBar({ label, value, color }) {
@@ -51,35 +255,157 @@ function StatBar({ label, value, color }) {
   );
 }
 
-function PixelPet({ mood }) {
-  const { face } = moodConfig[mood];
+function SpriteGrid({ rows, className = '' }) {
+  const pixels = rows.flatMap((row, rowIndex) =>
+    [...row].map((value, columnIndex) => ({
+      value,
+      id: `${rowIndex}-${columnIndex}`,
+      row: rowIndex + 1,
+      column: columnIndex + 1,
+    })),
+  );
 
   return (
+    <div className={`pet-sprite ${className}`}>
+      {pixels.map((pixel) =>
+        pixel.value === '.' ? null : (
+          <span
+            key={pixel.id}
+            className={`sprite-pixel pixel-${pixel.value}`}
+            style={{ gridColumn: pixel.column, gridRow: pixel.row }}
+          />
+        ),
+      )}
+    </div>
+  );
+}
+
+function PixelIcon({ rows, className = '' }) {
+  const pixels = rows.flatMap((row, rowIndex) =>
+    [...row].map((value, columnIndex) => ({
+      value,
+      id: `${rowIndex}-${columnIndex}`,
+      row: rowIndex + 1,
+      column: columnIndex + 1,
+    })),
+  );
+
+  return (
+    <span className={`mini-sprite ${className}`}>
+      {pixels.map((pixel) =>
+        pixel.value === '.' ? null : (
+          <span
+            key={pixel.id}
+            className={`mini-pixel pixel-${pixel.value}`}
+            style={{ gridColumn: pixel.column, gridRow: pixel.row }}
+          />
+        ),
+      )}
+    </span>
+  );
+}
+
+function PixelEgg({ onHatch }) {
+  return (
     <div className="pet-float relative mx-auto grid h-56 w-56 place-items-center sm:h-64 sm:w-64">
-      <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${moodConfig[mood].aura} blur-2xl`} />
-      <div className={`pixel-pet pixel-pet--${mood}`} aria-label={`${moodConfig[mood].label} digital pet`}>
-        <div className="pet-ear pet-ear-left" />
-        <div className="pet-ear pet-ear-right" />
-        <div className="pet-body">
-          <div className="pet-screen-glint" />
-          <div className="pet-eye pet-eye-left" />
-          <div className="pet-eye pet-eye-right" />
-          <div className="pet-face">{face}</div>
-          <div className="pet-mouth" />
-          {mood === 'sleepy' && <div className="sleep-bubble">Z</div>}
-        </div>
+      <div className="absolute inset-0 rounded-full bg-gradient-to-br from-neonPink/30 via-neonPurple/25 to-neonCyan/30 blur-2xl" />
+      <button type="button" className="pixel-egg" onClick={onHatch} aria-label="Click to hatch the egg">
+        <SpriteGrid rows={EGG_PIXELS} className="egg-sprite" />
         <div className="pet-shadow" />
+      </button>
+    </div>
+  );
+}
+
+function PetFace({ mood }) {
+  return (
+    <div className={`pet-face-layer pet-face-layer--${mood}`}>
+      <span className="face-pixel face-eye face-eye-left" />
+      <span className="face-pixel face-eye face-eye-right" />
+      <span className="face-pixel face-blush face-blush-left" />
+      <span className="face-pixel face-blush face-blush-right" />
+      <span className="face-pixel face-nose" />
+      <span className="face-mouth" />
+    </div>
+  );
+}
+
+function PixelReaction({ reaction }) {
+  if (!reaction) return null;
+
+  const config = reactionConfig[reaction.kind];
+
+  return (
+    <div key={reaction.id} className={`pixel-reaction ${config.className}`} aria-live="polite">
+      <div className="reaction-bubble">
+        <span className="reaction-label">{config.label}</span>
+        <span className="reaction-icon-cluster">
+          <span className={`reaction-icon reaction-icon--${config.symbol}`}>
+            <PixelIcon rows={ICON_PIXELS[config.symbol]} />
+          </span>
+          {reaction.kind === 'play' && (
+            <span className={`reaction-icon reaction-icon--${config.symbol}`}>
+              <PixelIcon rows={ICON_PIXELS[config.symbol]} />
+            </span>
+          )}
+          {reaction.kind === 'play' && (
+            <span className="reaction-icon reaction-icon--spark">
+              <PixelIcon rows={ICON_PIXELS.spark} />
+            </span>
+          )}
+        </span>
       </div>
     </div>
   );
 }
 
+function PixelPet({ pet, mood, reaction, onPet, interactive = false }) {
+  const shellClass = `pixel-pet ${pet.className} pixel-pet--${mood} ${reaction ? `pixel-pet--react-${reaction.kind}` : ''}`;
+
+  const petSprite = (
+    <>
+      <div className="pet-art relative h-full w-full">
+        <SpriteGrid rows={pet.pixels} />
+        <PetFace mood={mood} />
+        {(mood === 'sleepy' || reaction?.kind === 'sleep') && <div className="sleep-bubble">Z</div>}
+        <PixelReaction reaction={reaction} />
+      </div>
+      <div className="pet-shadow" />
+    </>
+  );
+
+  return (
+    <div className="pet-float relative mx-auto grid h-56 w-56 place-items-center sm:h-64 sm:w-64">
+      <div className={`absolute inset-0 rounded-full bg-gradient-to-br ${moodConfig[mood].aura} blur-2xl`} />
+      {interactive ? (
+        <button type="button" className={`${shellClass} pixel-pet-button`} onClick={onPet} aria-label={`Pet ${pet.name}`}>
+          {petSprite}
+        </button>
+      ) : (
+        <div className={shellClass} aria-label={`${pet.name}, ${moodConfig[mood].label}`}>
+          {petSprite}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function App() {
+  const [lifeStage, setLifeStage] = useState('egg');
+  const [activePetId, setActivePetId] = useState(null);
+  const [petName, setPetName] = useState('');
+  const [nameDraft, setNameDraft] = useState('');
+  const [reaction, setReaction] = useState(null);
   const [stats, setStats] = useState({
     hunger: 74,
     energy: 68,
     happiness: 82,
   });
+
+  const activePet = useMemo(
+    () => PETS.find((pet) => pet.id === activePetId) ?? PETS[0],
+    [activePetId],
+  );
 
   const mood = useMemo(() => {
     if (stats.hunger < 32) return 'hungry';
@@ -90,6 +416,8 @@ function App() {
 
   useEffect(() => {
     const decayTimer = window.setInterval(() => {
+      if (lifeStage !== 'pet') return;
+
       setStats((current) => ({
         // Hunger represents fullness here, so it drifts downward over time.
         hunger: clampStat(current.hunger - 4),
@@ -99,34 +427,67 @@ function App() {
     }, 3500);
 
     return () => window.clearInterval(decayTimer);
-  }, []);
+  }, [lifeStage]);
 
-  function updateStats(changes) {
+  useEffect(() => {
+    if (!reaction) return undefined;
+
+    const reactionTimer = window.setTimeout(() => {
+      setReaction(null);
+    }, 2200);
+
+    return () => window.clearTimeout(reactionTimer);
+  }, [reaction]);
+
+  function hatchEgg() {
+    setActivePetId(getRandomPetId());
+    setLifeStage('naming');
+  }
+
+  function submitPetName(event) {
+    event.preventDefault();
+    const cleanName = nameDraft.trim();
+
+    if (!cleanName) return;
+
+    setPetName(cleanName);
+    setReaction({ kind: 'pet', id: Date.now() });
+    setLifeStage('pet');
+  }
+
+  function triggerInteraction(kind, changes) {
+    if (lifeStage !== 'pet') return;
+
     setStats((current) => ({
       hunger: clampStat(current.hunger + (changes.hunger ?? 0)),
       energy: clampStat(current.energy + (changes.energy ?? 0)),
       happiness: clampStat(current.happiness + (changes.happiness ?? 0)),
     }));
+    setReaction({ kind, id: Date.now() });
+  }
+
+  function petThePet() {
+    triggerInteraction('pet', { happiness: 8, energy: 1 });
   }
 
   const actions = [
     {
       label: 'Feed',
-      icon: '++',
+      iconRows: ICON_PIXELS.pizza,
       glow: 'shadow-neonPink hover:border-neonPink',
-      onClick: () => updateStats({ hunger: 22, happiness: 4, energy: -4 }),
+      onClick: () => triggerInteraction('feed', { hunger: 22, happiness: 4, energy: -4 }),
     },
     {
       label: 'Play',
-      icon: '!!',
+      iconRows: ICON_PIXELS.ball,
       glow: 'shadow-neonCyan hover:border-neonCyan',
-      onClick: () => updateStats({ happiness: 18, energy: -12, hunger: -7 }),
+      onClick: () => triggerInteraction('play', { happiness: 18, energy: -12, hunger: -7 }),
     },
     {
       label: 'Sleep',
-      icon: 'zz',
+      iconRows: ICON_PIXELS.moon,
       glow: 'shadow-neonPurple hover:border-neonPurple',
-      onClick: () => updateStats({ energy: 26, hunger: -6, happiness: 3 }),
+      onClick: () => triggerInteraction('sleep', { energy: 26, hunger: -6, happiness: 3 }),
     },
   ];
 
@@ -147,13 +508,62 @@ function App() {
 
         <div className="grid items-stretch gap-5 lg:grid-cols-[1fr_340px]">
           <div className="retro-panel flex min-h-[28rem] flex-col items-center justify-center p-5 sm:p-8">
-            <div className="mb-4 rounded-full border border-neonCyan/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonCyan shadow-neonCyan">
-              Mood: {moodConfig[mood].label}
-            </div>
-            <PixelPet mood={mood} />
-            <p className="mt-5 text-center font-pixel text-[0.65rem] leading-6 text-pink-100 drop-shadow-[0_0_8px_rgba(255,61,242,0.75)]">
-              {moodConfig[mood].message}
-            </p>
+            {lifeStage === 'egg' && (
+              <>
+                <div className="mb-4 rounded-full border border-neonCyan/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonCyan shadow-neonCyan">
+                  Incubating
+                </div>
+                <PixelEgg onHatch={hatchEgg} />
+                <p className="mt-5 text-center font-pixel text-[0.65rem] leading-6 text-pink-100 drop-shadow-[0_0_8px_rgba(255,61,242,0.75)]">
+                  Click on the egg to hatch it
+                </p>
+              </>
+            )}
+
+            {lifeStage === 'naming' && (
+              <>
+                <div className="mb-4 rounded-full border border-neonPink/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonPink shadow-neonPink">
+                  You hatched a {activePet.name}!
+                </div>
+                <PixelPet pet={activePet} mood="happy" />
+                <form className="name-form mt-5 w-full max-w-sm" onSubmit={submitPetName}>
+                  <label className="block text-center font-pixel text-[0.62rem] leading-6 text-cyan-100" htmlFor="pet-name">
+                    Name your pet
+                  </label>
+                  <div className="mt-3 flex flex-col gap-3 sm:flex-row">
+                    <input
+                      id="pet-name"
+                      className="name-input"
+                      value={nameDraft}
+                      onChange={(event) => setNameDraft(event.target.value)}
+                      maxLength={16}
+                      autoComplete="off"
+                      autoFocus
+                    />
+                    <button type="submit" className="name-submit">
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+
+            {lifeStage === 'pet' && (
+              <>
+                <div className="mb-4 text-center">
+                  <p className="font-pixel text-xl leading-8 text-white drop-shadow-[0_0_14px_rgba(255,61,242,0.9)]">
+                    {petName}
+                  </p>
+                  <p className="mt-2 rounded-full border border-neonCyan/50 bg-black/40 px-4 py-2 font-pixel text-[0.62rem] text-neonCyan shadow-neonCyan">
+                    {activePet.name} / {moodConfig[mood].label}
+                  </p>
+                </div>
+                <PixelPet pet={activePet} mood={mood} reaction={reaction} onPet={petThePet} interactive />
+                <p className="mt-5 text-center font-pixel text-[0.65rem] leading-6 text-pink-100 drop-shadow-[0_0_8px_rgba(255,61,242,0.75)]">
+                  {reaction ? reactionConfig[reaction.kind].message : moodConfig[mood].message}
+                </p>
+              </>
+            )}
           </div>
 
           <aside className="retro-panel flex flex-col justify-between gap-6 p-5 sm:p-6">
@@ -178,9 +588,12 @@ function App() {
                   key={action.label}
                   type="button"
                   onClick={action.onClick}
+                  disabled={lifeStage !== 'pet'}
                   className={`action-button ${action.glow}`}
                 >
-                  <span className="block text-base">{action.icon}</span>
+                  <span className="action-icon-stage">
+                    <PixelIcon rows={action.iconRows} className="action-pixel-icon" />
+                  </span>
                   <span className="block text-[0.58rem]">{action.label}</span>
                 </button>
               ))}
